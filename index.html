@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" /> 
+    <link rel="stylesheet" href="static/style/css/style.css" />
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="//localhost:35729/livereload.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <h1>It's A Calculator</h1>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main container">
+      <div class="calculator-wrapper col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+        <div class="calculator">
+          <div class="inside col-md-10 col-md-offset-1">
+            <div class="row display-wrapper">
+              <input id="lcd-display" type="text" value="372.98"/>
+            </div>
+            <div class="col-sm-12 buttons function">
+              <button id="calc-c" class="button pull-right">
+                C
+              </button>
+              <button id="calc-ca" class="button pull-right">
+                CA
+              </button>
+            </div>
+            <div class="col-sm-7 buttons primary">
+              <button id="calc-1" class="button pull-left"> 1 </button>
+              <button id="calc-2" class="button pull-left"> 2 </button>
+              <button id="calc-3" class="button pull-left"> 3 </button>
+              <button id="calc-4" class="button pull-left"> 4 </button>
+              <button id="calc-5" class="button pull-left"> 5 </button>
+              <button id="calc-6" class="button pull-left"> 6 </button>
+              <button id="calc-7" class="button pull-left"> 7 </button>
+              <button id="calc-8" class="button pull-left"> 8 </button>
+              <button id="calc-9" class="button pull-left"> 9 </button>
+              <button id="calc-0" class="button pull-left"> 0 </button>
+            </div>
+            <div class="col-sm-5 buttons side">
+              <button id="calc-=" class="button pull-left"> = </button>
+              <button id="calc-+" class="button pull-left"> + </button>
+              <button id="calc--" class="button pull-left"> - </button>
+              <button id="calc-/" class="button pull-left"> / </button>
+              <button id="calc-*" class="button pull-left"> * </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

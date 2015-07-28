@@ -1,0 +1,23 @@
+{
+  "name": "pretty-calculator",
+  "version": "0.0.0",
+  "description": "Pretty Calculator Task Management mini-server",
+  "main": "n.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timondavis/my-pretty-calculator.git"
+  },
+  "author": "Timon",
+  "license": "none",
+  "bugs": {
+    "url": "https://github.com/timondavis/my-pretty-calculator/issues"
+  },
+  "homepage": "https://github.com/timondavis/my-pretty-calculator",
+  "devDependencies": {
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "^1.0.0"
+  }
+}

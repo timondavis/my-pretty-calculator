@@ -1,0 +1,67 @@
+.calculator-wrapper {
+
+  height: 500px;
+  margin-top: 75px;
+  padding: 0;
+}
+
+.calculator {
+
+  border: 2px solid black;
+  border-radius: 18px;
+  height: 460px;
+
+  background-color: green;
+
+  .inside {
+
+    height: 100%;
+    padding: 20px;
+
+    border: 1px solid black;
+    border-radius: 18px;
+  }
+}
+
+#lcd-display { 
+
+  width: 92.25%;
+  margin-left: 3.75%;
+  height: 60px;
+
+  border-radius: 12px;
+  @include display-background();
+
+  border: 3px solid black;
+
+  font-family: "Digital";
+  font-size: 4.3em;
+  line-height: 1px;
+  text-align: right;
+  padding: 0 8px;
+}
+
+.buttons { 
+
+  border: 1px solid black;
+  padding: 5px;
+
+  &.function {
+    height: 40px;
+    margin-top: 20px;
+  }
+
+  &.primary, &.side {
+    height: 300px;
+
+    .button {
+
+      margin: 0 5px;
+    }
+  }
+
+  .button {
+
+    margin: 3px;
+  }
+}
