@@ -39,14 +39,23 @@
   padding: 0 8px; }
 
 .buttons {
-  border: 1px solid black;
   padding: 5px; }
+  .buttons.primary, .buttons.side {
+    height: 300px;
+    padding-top: 15px; }
   .buttons.function {
     height: 40px;
     margin-top: 20px; }
-  .buttons.primary, .buttons.side {
-    height: 300px; }
-    .buttons.primary .button, .buttons.side .button {
-      margin: 0 5px; }
+    .buttons.function .button {
+      height: 29px;
+      margin-left: 15px; }
+  .buttons.primary {
+    padding-left: 0px; }
+    .buttons.primary .button {
+      margin: 0 16px 16px 0; }
+  .buttons.side .button {
+    margin: 0 0 15px 0; }
   .buttons .button {
-    margin: 3px; }
+    width: 45px;
+    height: 45px;
+    border-radius: 5px; }

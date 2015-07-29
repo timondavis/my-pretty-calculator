@@ -43,25 +43,47 @@
 
 .buttons { 
 
-  border: 1px solid black;
   padding: 5px;
+
+
+  &.primary, &.side {
+    height: 300px;
+    padding-top: 15px;
+  }
 
   &.function {
     height: 40px;
     margin-top: 20px;
-  }
-
-  &.primary, &.side {
-    height: 300px;
 
     .button {
 
-      margin: 0 5px;
+      height: 29px;
+      margin-left: 15px;
+    }
+  }
+
+  &.primary {
+
+    padding-left: 0px;
+
+    .button {
+
+      margin: 0 16px 16px 0;
+    }
+  }
+
+  &.side {
+
+    .button { 
+
+      margin: 0 0 15px 0;
     }
   }
 
   .button {
 
-    margin: 3px;
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
   }
 }
