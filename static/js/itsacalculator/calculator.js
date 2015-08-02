@@ -25,8 +25,8 @@ var Calculator = {
     var currentValue = this.CalcSets[ currentCalcSetIndex ].CurrentValue;
     var totalValue = this.CalcSets[currentCalcSetIndex].CurrentValue.Total;
 
-    callback.bind( this );
-    callback( options, currentValue, totalValue, this.LastOperation, this.CalcSet );
+    cb = callback.bind( this, options, currentValue, totalValue, this.LastOperation, this.CalcSets );
+    cb( options, currentValue, totalValue, this.LastOperation, this.CalcSets );
   },
 
   /**
@@ -53,6 +53,33 @@ var Calculator = {
   'Initialize': function Initialize() { 
 
     this.CalcSets = [new CalcSet()];
-    this.DisplayCurrent;
+    this.DisplayCurrent = new Display();
+
+    for ( var buttonCount = 0 ; buttonCount < this.Buttons.length ; buttonCount++ ) { 
+
+      this.Buttons[buttonCount].Activate();
+    }
+
+    this.CalcSet = [ new CalcSet() ];
+  },
+
+  'PlaceButton': function PlaceButton( button, zone ) { 
+
+    var buttonID = 'calc-' + button.Signal;
+    var buttonLabel = button.Label;
+
+    var buttonString = '<button id="' + buttonID + '" class="button pull-left">' + buttonLabel + '</button>';
+    this.Buttons.push( button );
+
+    switch( zone ) { 
+
+      case ('primary'): 
+      default: { 
+
+        $('.buttons.primary').append( buttonString );
+
+        break;
+      }
+    }
   }
 }

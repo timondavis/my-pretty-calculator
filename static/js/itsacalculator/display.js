@@ -4,7 +4,11 @@ var Display = function Display() {
 
   this.DisplayValue = "~";
 
-  this.Print = function Print( string ) {};
+  this.Print = function Print( string ) {
+
+    this.Displayvalue = string;
+    $('#lcd-display').val( string );
+  };
 
   // INIT
 };

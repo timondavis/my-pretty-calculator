@@ -1,18 +1,40 @@
-function CalcSet {
+var CalcSet = function Calcset(){
   
-  that = this;
+  /** PUBLIC **/
 
   this.Calculator = window.Calculator;
   this.CurrentValue = 0;
   this.Total = 0; 
 
+  /** PRIVILEGED **/
+  
   this.AppendCurrentValue = function AppendCurrentValue( character ) {
 
-    that.append
-
+    Append( character );
   };
 
+  this.SetCurrentValue = function SetCurrentValue( val ) { 
+
+    if ( parseInt( val ) ) { 
+      this.CurrentValue = val;
+    }
+  }
+
+  this.SetTotal = function SetTotal( val ) { 
+
+    if ( parseInt( val ) ) { 
+
+      this.Total = val;
+    }
+  }
+
+  /** PRIVATE **/
+
+  var that = this;
+
   var Append = function Append( character ) {
+
+    character = character.toString();
 
     // create a string version of the current value
     var currentString = that.CurrentValue.toString();

@@ -24,6 +24,13 @@ module.exports = function( grunt ) {
         'options': { 
           'livereload': true,
         }
+      },
+      'js': {
+        'files': '**/*.js',
+        'tasks': ['sass'],
+        'options': { 
+          'livereload': true,
+        }         
       }
     }
   });
