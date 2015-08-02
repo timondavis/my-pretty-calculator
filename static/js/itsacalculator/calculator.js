@@ -22,11 +22,12 @@ var Calculator = {
   'Compute' : function Compute( callback, options ) {
 
     var currentCalcSetIndex = this.CalcSets.length - 1;
+    var currentCalcSet = this.CalcSets[currentCalcSetIndex];
     var currentValue = this.CalcSets[ currentCalcSetIndex ].CurrentValue;
-    var totalValue = this.CalcSets[currentCalcSetIndex].CurrentValue.Total;
+    var totalValue = this.CalcSets[currentCalcSetIndex].Total;
 
-    cb = callback.bind( this, options, currentValue, totalValue, this.LastOperation, this.CalcSets );
-    cb( options, currentValue, totalValue, this.LastOperation, this.CalcSets );
+    cb = callback.bind( this, options, currentValue, totalValue, this.LastOperation, this.CalcSets, currentCalcSet );
+    cb( options, currentValue, totalValue, this.LastOperation, this.CalcSets, currentCalcSet );
   },
 
   /**
@@ -73,6 +74,11 @@ var Calculator = {
 
     switch( zone ) { 
 
+      case( 'side' ): { 
+
+        $('.buttons.side').append( buttonString );
+        break;
+      }
       case ('primary'): 
       default: { 
 

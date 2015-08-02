@@ -14,9 +14,7 @@ $(document).ready( function() {
         // 'this' is the calculator in this context, the calculator will 
         // bind the function unto itself.
         new CalcButton( btnNum.toString(), btnNum.toString(), 
-          function( options, currentValue, totalValue, lastOp, calcSet ) { 
-
-            var currentCalcSet = calcSet[calcSet.length - 1];
+          function( options, currentValue, totalValue, lastOp, calcSets, currentCalcSet ) { 
 
             if ( lastOp == '#' ) {  
 
@@ -39,7 +37,24 @@ $(document).ready( function() {
     f();
   }
 
-   
+  window.Calculator.PlaceButton( 
+
+    // Add Button Registry
+    new CalcButton( 'PLUS', '+', 
+      function( options, currentValue, totalValue, lastOp, calcSets, currentCalcSet ) {
+
+        var newValue = currentValue + totalValue;
+        currentCalcSet.SetTotal( newValue );
+        this.DisplayCurrent.Print( newValue );
+        currentCalcSet.SetCurrentValue( 0 );
+        this.LastOperation = 'PLUS';
+
+      }
+    ),
+    'side'
+  );
+
+
   window.Calculator.Initialize();
 });
 

@@ -9,17 +9,18 @@ var CalcButton = function CalcButton( signal, label, callback, options ) {
   if ( signal ) { this.Signal = signal; }
   if ( label ) { this.Label = label; }
 
-
   this.Activate = function Activate() { 
 
-    this.Element = thisButton = $( '#calc-' + this.Label );
+    this.Element = thisButton = $( '#calc-' + signal );
 
     thisButton.off( 'click' );
-    thisButton.click( function( e ) { 
 
+    function onclick(e) {
       window.Calculator.Compute( callback, options );
-      console.log( this.Signal + ' button clicked' );
-    });
+      console.log( signal + ' button clicked' );
+    }
+
+    thisButton.click( onclick );
   }
 
   // INIT
