@@ -59,7 +59,7 @@ var Calculator = {
       // Special case for equals, otherwise
       if ( pressedButton.Signal == 'equals' ) { 
 
-        var callback = this.LastOperationButton.Do;
+          var callback = this.LastOperationButton.Do;
         cb = callback.bind( this, state );
         var total = cb( state );
         this.CurrentCalcSet().SetTotal( total );
@@ -178,6 +178,6 @@ var Calculator = {
         break;
       }
     }
-  },
+  }
 
 }

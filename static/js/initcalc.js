@@ -116,8 +116,7 @@ $(document).ready( function() {
     new CalcButton( 'clear-all', 'CA', false,
       function( state ) { 
 
-        state.currentCalcSet.SetCurrentValue( 0 );
-        state.currentCalcSet.SetTotal( 0 );
+        this.Initialize();
         this.DisplayCurrent.Print( this.CurrentCalcSet().CurrentValue );
       }
     ),
