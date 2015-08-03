@@ -17,6 +17,9 @@ $(document).ready( function() {
           function( state ) { 
 
             state.currentCalcSet.AppendCurrentValue( btnNum );
+            this.DisplayCurrent.Print( this.CurrentCalcSet().CurrentValue );
+            this.LastButton = state.lastButton;
+            this.CurrentCalcSet().Lastbutton = state.lastButton;
           }
         )
       );
@@ -33,6 +36,8 @@ $(document).ready( function() {
       function( state ) {
 
         var newValue = state.totalValue + state.currentValue;
+        this.LastButton = state.lastButton;
+        this.CurrentCalcSet().Lastbutton = state.lastButton;
         return newValue;
       } 
     ),
@@ -46,6 +51,8 @@ $(document).ready( function() {
       function( state ) {
 
         var newValue = state.totalValue - state.currentValue;
+        this.LastButton = state.lastButton;
+        this.CurrentCalcSet().Lastbutton = state.lastButton;
         return newValue;
       }
     ),
@@ -57,6 +64,8 @@ $(document).ready( function() {
       function( state ) {
 
         var newValue = state.totalValue * state.currentValue;
+        this.LastButton = state.lastButton;
+        this.CurrentCalcSet().Lastbutton = state.lastButton;
         return newValue;
       }
     ),
@@ -69,6 +78,8 @@ $(document).ready( function() {
 
         if ( parseFloat( state.currentValue.toPrecision(8) ) == 0 ) { return state.currentValue; }
         var newValue = state.totalValue / state.currentValue;
+        this.LastButton = state.lastButton;
+        this.CurrentCalcSet().Lastbutton = state.lastButton;
         return ( parseFloat( newValue.toPrecision(8) ) );
       }
     ),
@@ -92,6 +103,9 @@ $(document).ready( function() {
       function( state ) { 
 
         state.currentCalcSet.SetCurrentValue ( 0 );
+        this.LastButton = state.lastButton;
+        this.CurrentCalcSet().Lastbutton = state.lastButton;
+        this.DisplayCurrent.Print( this.CurrentCalcSet().CurrentValue );
       }
     ),
     'util'
@@ -104,9 +118,100 @@ $(document).ready( function() {
 
         state.currentCalcSet.SetCurrentValue( 0 );
         state.currentCalcSet.SetTotal( 0 );
+        this.DisplayCurrent.Print( this.CurrentCalcSet().CurrentValue );
       }
     ),
     'util'
+  );
+
+  window.Calculator.PlaceButton( 
+
+    new CalcButton( 'paren-start', '(', false, 
+      function( state ) { 
+
+        // Get some buttons just in case we need them.
+        var equalsButton = this.Buttons.filter( function( item ) { 
+
+          return ( 'equals' == item.Signal );
+        });
+        equalsButton = equalsButton[0];
+
+        var timesButton = this.Buttons.filter( function( item ) { 
+
+          return ('times' == item.Signal );
+        });
+        timesButton = timesButton[0];
+
+        // If the last button was an operation, we want that stored
+        if ( this.LastButton.IsOperator ) { 
+
+          this.CurrentCalcSet().LastButton = this.LastButton;
+          this.CurrentCalcSet().LastOperationButton = this.LastButton;
+          this.LastButton = this.LastOperationButton = null;
+        }
+        else { 
+
+          this.Compute( equalsButton );
+
+          // If the last button was an non-operation, we want to process what came before and add a times
+          this.CurrentCalcSet().LastButton = this.CurrentCalcSet().LastOperationButton = timesButton;
+          this.LastButton = this.LastOperationButton = null;
+        }
+
+        this.CalcSets.push( new CalcSet() );
+      }
+    )
+  );
+
+  window.Calculator.PlaceButton( 
+
+    new CalcButton( 'paren-end', ')', false,
+      function( state ) { 
+
+        if ( state.calcSets.length <= 1 ) { return; }
+
+        // Get the equals button so we can use it for processing
+        var equalsButton = this.Buttons.filter( function( item ) { 
+          return ( 'equals' == item.Signal );
+        });
+        equalsButton = equalsButton[0];
+
+        // Complete the operation if not done already
+        if ( ! this.LastButton.IsOperator ) { 
+
+          this.Compute( equalsButton );
+        }
+
+        // Capture the previous state and the previous state's last operative button
+        var previousState = this.CalcSets[state.currentCalcSetIndex - 1];
+        var previousStateButton = previousState.LastOperationButton;
+
+        // Take the currently processed state's value and apply it to the prior
+        previousState.SetCurrentValue( this.CurrentCalcSet().Total );
+
+        // Now release the current state in favor of the prior
+        this.CalcSets.pop();
+
+        // Clone over all the button controls as needed (this is to accommodate the needs
+        // of equals in the short-term).
+        this.LastOperationButton = previousStateButton;
+        this.LastButton = previousStateButton;
+
+        // Compute  w/ Equals
+        this.Compute( equalsButton );
+
+        // Given the new total, set the new current value.
+        previousState.SetCurrentValue( previousState.Total )
+        // Display the new current value.
+        this.DisplayCurrent.Print( this.CurrentCalcSet().CurrentValue );
+
+        // Set all operations to point at equals.  This refreshes the board.
+        this.LastOperationButton = equalsButton;
+        this.CurrentCalcSet().LastOperationButton = equalsButton;
+        this.LastButton = equalsButton;
+        this.CurrentCalcSet().Lastbutton = equalsButton;
+      }
+    )
   );
 
 

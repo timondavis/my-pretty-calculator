@@ -5,6 +5,8 @@ var CalcSet = function Calcset(){
   this.Calculator = window.Calculator;
   this.CurrentValue = 0;
   this.Total = 0; 
+  this.LastOperationButton = null;
+  this.LastButton = null;
 
   /** PRIVILEGED **/
   
@@ -21,6 +23,11 @@ var CalcSet = function Calcset(){
   }
 
   this.SetTotal = function SetTotal( val ) { 
+
+    if ( typeof val === 'undefined' ) { 
+      console.log( 'null val in set total');
+      return;
+    }
 
     if ( parseFloat( val ) || "0" == val.toString() ) { 
 

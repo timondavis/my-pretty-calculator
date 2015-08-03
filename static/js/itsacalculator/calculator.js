@@ -17,13 +17,18 @@ var Calculator = {
     this.Display.DisplayValue( displayString );
   },
 
+  'CurrentCalcSet': function CurrentCalcSet() { 
+
+    var currentCalcSetIndex = this.CalcSets.length - 1;
+    return this.CalcSets[currentCalcSetIndex];
+  },
+
   /**
    * Execute a given callback function, usint the Calculator as 'this' context
    */
   'Compute' : function Compute( pressedButton ) {
 
     var currentCalcSetIndex = this.CalcSets.length - 1;
-    var currentCalcSet = this.CalcSets[currentCalcSetIndex];
     var currentValue = this.CalcSets[ currentCalcSetIndex ].CurrentValue;
     var totalValue = this.CalcSets[currentCalcSetIndex].Total;
 
@@ -36,13 +41,17 @@ var Calculator = {
       this.LastButton = this.LastOperationButton;
     }
 
+    this.CurrentCalcSet().LastOperationButton = this.LastOperationButton;
+    this.CurrentCalcSet().LastButton = this.LastOperationButton;
+
     var state = {
       'currentValue' : currentValue,
       'totalValue': totalValue,
       'lastOperationButton': this.LastOperationButton,
       'lastButton': this.LastButton,
       'calcSets': this.CalcSets,
-      'currentCalcSet' : currentCalcSet
+      'currentCalcSet' : this.CurrentCalcSet(),
+      'currentCalcSetIndex': currentCalcSetIndex
     }
 
     if ( pressedButton.IsOperator ) {
@@ -53,9 +62,11 @@ var Calculator = {
         var callback = this.LastOperationButton.Do;
         cb = callback.bind( this, state );
         var total = cb( state );
-        currentCalcSet.SetTotal( total );
-        this.DisplayCurrent.Print( currentCalcSet.Total );
+        this.CurrentCalcSet().SetTotal( total );
+        this.DisplayCurrent.Print( this.CurrentCalcSet().Total );
         this.LastButton = pressedButton;
+        this.CurrentCalcSet().LastButton = pressedButton;
+
         return;
       }          
       else { 
@@ -67,35 +78,41 @@ var Calculator = {
           var callback = this.LastOperationButton.Do;
           cb = callback.bind( this, state );
           var total = cb( state );
-          currentCalcSet.SetTotal( total );
+          this.CurrentCalcSet().SetTotal( total );
 
           this.LastButton = pressedButton;
+          this.CurrentCalcSet().LastButton = pressedButton;
         }
       }
 
       this.LastOperationButton = pressedButton;
-      this.DisplayCurrent.Print( currentCalcSet.Total );
+      this.CurrentCalcSet().LastOperationButton = pressedButton;
 
-    } else { 
+      this.DisplayCurrent.Print( this.CurrentCalcSet().Total );
+
+    } else { // PUSHED WAS NOT AN OPERATOR 
 
       if ( this.LastButton.IsOperator ) {
 
-        currentCalcSet.SetCurrentValue( 0 ); 
+        if ( pressedButton.Signal != 'paren-end' ) { 
+          this.CurrentCalcSet().SetCurrentValue( 0 ); 
 
-        if ( this.LastButton.Signal == 'equals' ) { 
+          if ( this.LastButton.Signal == 'equals' ) { 
 
-          currentCalcSet.SetTotal( 0 );
+            this.CurrentCalcSet().SetTotal( 0 );
+          }
         }
       }
 
       var callback = pressedButton.Do;
       cb = callback.bind( this, state );
       cb( state );
-      this.LastButton = pressedButton;
-      this.DisplayCurrent.Print( currentCalcSet.CurrentValue );
     }
 
-    this.LastButton = pressedButton;
+    if ( pressedButton.Signal != 'paren-end' ) { 
+      this.LastButton = pressedButton;
+      this.CurrentCalcSet().Lastbutton = pressedButton;
+    }
   },
 
   /**
@@ -104,7 +121,7 @@ var Calculator = {
   'Clear' : function Clear() {
 
     var currentCalcSetIndex = this.CalcSets.length - 1;
-    this.CalcSets[ curretnCalcSetIndex ].CurrentValue = 0;
+    this.CalcSets[ currentCalcSetIndex ].CurrentValue = 0;
     this.DisplayCurrent();
   },
 
