@@ -30,7 +30,7 @@ var Calculator = {
     if ( this.LastOperationButton == null ) { 
 
       this.LastOperationButton = this.Buttons.filter( function( item ) { 
-        return item.Signal == 'PLUS';
+        return item.Signal == 'plus';
       });
       this.LastOperationButton = this.LastOperationButton[0];
       this.LastButton = this.LastOperationButton;
@@ -48,7 +48,7 @@ var Calculator = {
     if ( pressedButton.IsOperator ) {
 
       // Special case for equals, otherwise
-      if ( pressedButton.Signal == 'EQUALS' ) { 
+      if ( pressedButton.Signal == 'equals' ) { 
 
         var callback = this.LastOperationButton.Do;
         cb = callback.bind( this, state );
@@ -82,7 +82,7 @@ var Calculator = {
 
         currentCalcSet.SetCurrentValue( 0 ); 
 
-        if ( this.LastButton.Signal == 'EQUALS' ) { 
+        if ( this.LastButton.Signal == 'equals' ) { 
 
           currentCalcSet.SetTotal( 0 );
         }
@@ -137,11 +137,18 @@ var Calculator = {
     var buttonID = 'calc-' + button.Signal;
     var buttonLabel = button.Label;
 
-    var buttonString = '<button id="' + buttonID + '" class="button pull-left">' + buttonLabel + '</button>';
+    var pullDirection = ( zone == 'util' ) ? 'right' : 'left';
+
+    var buttonString = '<button id="' + buttonID + '" class="button pull-' + pullDirection + '">' + buttonLabel + '</button>';
     this.Buttons.push( button );
 
     switch( zone ) { 
 
+      case( 'util' ): {
+
+        $('.buttons.util').append( buttonString );
+        break;
+      }
       case( 'side' ): { 
 
         $('.buttons.side').append( buttonString );

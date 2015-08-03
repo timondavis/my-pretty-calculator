@@ -43,10 +43,10 @@
   .buttons.primary, .buttons.side {
     height: 300px;
     padding-top: 15px; }
-  .buttons.function {
+  .buttons.util {
     height: 40px;
     margin-top: 20px; }
-    .buttons.function .button {
+    .buttons.util .button {
       height: 29px;
       margin-left: 15px; }
   .buttons.primary {

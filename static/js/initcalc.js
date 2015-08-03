@@ -28,7 +28,7 @@ $(document).ready( function() {
   // Add Button Registry
   window.Calculator.PlaceButton( 
 
-    new CalcButton( 'PLUS', '+', true,
+    new CalcButton( 'plus', '+', true,
       // Process a PLUS operation
       function( state ) {
 
@@ -42,7 +42,7 @@ $(document).ready( function() {
   // Subtract Button Registry
   window.Calculator.PlaceButton(
 
-    new CalcButton( 'MINUS', '-', true,
+    new CalcButton( 'minus', '-', true,
       function( state ) {
 
         var newValue = state.totalValue - state.currentValue;
@@ -53,7 +53,7 @@ $(document).ready( function() {
   );
 
   window.Calculator.PlaceButton( 
-    new CalcButton( 'TIMES', '*', true, 
+    new CalcButton( 'times', '*', true, 
       function( state ) {
 
         var newValue = state.totalValue * state.currentValue;
@@ -64,7 +64,7 @@ $(document).ready( function() {
   );
 
   window.Calculator.PlaceButton( 
-    new CalcButton( 'DIVIDE', '/', true, 
+    new CalcButton( 'divide', '/', true, 
       function( state ) {
 
         if ( parseFloat( state.currentValue.toPrecision(8) ) == 0 ) { return state.currentValue; }
@@ -77,13 +77,36 @@ $(document).ready( function() {
 
   window.Calculator.PlaceButton( 
 
-    new CalcButton( 'EQUALS', '=', true,
+    new CalcButton( 'equals', '=', true,
       function( state ) { 
 
         // DOES NOTHING. 
       }
     ),
     'side'
+  );
+
+  window.Calculator.PlaceButton( 
+
+    new CalcButton( 'clear', 'C', false,
+      function( state ) { 
+
+        state.currentCalcSet.SetCurrentValue ( 0 );
+      }
+    ),
+    'util'
+  );
+
+  window.Calculator.PlaceButton( 
+
+    new CalcButton( 'clear-all', 'CA', false,
+      function( state ) { 
+
+        state.currentCalcSet.SetCurrentValue( 0 );
+        state.currentCalcSet.SetTotal( 0 );
+      }
+    ),
+    'util'
   );
 
 
