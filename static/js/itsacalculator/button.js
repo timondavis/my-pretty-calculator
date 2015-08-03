@@ -21,7 +21,6 @@ var CalcButton = function CalcButton( signal, label, isOperator, doFunction ) {
 
     function onclick(e) {
       window.Calculator.Compute( that );
-      console.log( signal + ' button clicked' );
     }
 
     thisButton.click( onclick );

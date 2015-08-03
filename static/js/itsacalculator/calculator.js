@@ -59,10 +59,14 @@ var Calculator = {
       // Special case for equals, otherwise
       if ( pressedButton.Signal == 'equals' ) { 
 
-          var callback = this.LastOperationButton.Do;
+        var callback = this.LastOperationButton.Do;
         cb = callback.bind( this, state );
-        var total = cb( state );
-        this.CurrentCalcSet().SetTotal( total );
+
+        if ( this.LastOperationButton.Signal != 'equals' ) {
+
+          var total = cb( state );
+          this.CurrentCalcSet().SetTotal( total );
+        }
         this.DisplayCurrent.Print( this.CurrentCalcSet().Total );
         this.LastButton = pressedButton;
         this.CurrentCalcSet().LastButton = pressedButton;
@@ -142,11 +146,11 @@ var Calculator = {
     this.DisplayCurrent = new Display();
 
     for ( var buttonCount = 0 ; buttonCount < this.Buttons.length ; buttonCount++ ) { 
-
       this.Buttons[buttonCount].Activate();
     }
 
-    this.CalcSet = [ new CalcSet() ];
+    this.LastOperationButton = null;
+    this.LastButton = null;
   },
 
   'PlaceButton': function PlaceButton( button, zone ) { 
