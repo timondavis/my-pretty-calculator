@@ -15,14 +15,14 @@ var CalcSet = function Calcset(){
 
   this.SetCurrentValue = function SetCurrentValue( val ) { 
 
-    if ( parseInt( val ) || "0" == val.toString() ) { 
+    if ( parseFloat( val ) || "0" == val.toString() ) { 
       this.CurrentValue = val;
     }
   }
 
   this.SetTotal = function SetTotal( val ) { 
 
-    if ( parseInt( val ) || "0" == val.toString() ) { 
+    if ( parseFloat( val ) || "0" == val.toString() ) { 
 
       this.Total = val;
     }

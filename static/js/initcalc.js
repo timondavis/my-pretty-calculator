@@ -13,22 +13,10 @@ $(document).ready( function() {
         // Submit handler function in constructor.
         // 'this' is the calculator in this context, the calculator will 
         // bind the function unto itself.
-        new CalcButton( btnNum.toString(), btnNum.toString(), 
-          function( options, currentValue, totalValue, lastOp, calcSets, currentCalcSet ) { 
+        new CalcButton( btnNum.toString(), btnNum.toString(), false,
+          function( state ) { 
 
-            if ( lastOp == '#' ) {  
-
-              currentCalcSet.AppendCurrentValue( btnNum );
-              this.DisplayCurrent.Print( currentCalcSet.CurrentValue );
-              this.LastOperation = '#';
-            }
-            else { 
-
-              currentCalcSet.SetCurrentValue( 0 );
-              currentCalcSet.AppendCurrentValue( btnNum );
-              this.DisplayCurrent.Print( currentCalcSet.CurrentValue );
-              this.LastOperation = '#';
-            }
+            state.currentCalcSet.AppendCurrentValue( btnNum );
           }
         )
       );
@@ -37,18 +25,62 @@ $(document).ready( function() {
     f();
   }
 
+  // Add Button Registry
   window.Calculator.PlaceButton( 
 
-    // Add Button Registry
-    new CalcButton( 'PLUS', '+', 
-      function( options, currentValue, totalValue, lastOp, calcSets, currentCalcSet ) {
+    new CalcButton( 'PLUS', '+', true,
+      // Process a PLUS operation
+      function( state ) {
 
-        var newValue = currentValue + totalValue;
-        currentCalcSet.SetTotal( newValue );
-        this.DisplayCurrent.Print( newValue );
-        currentCalcSet.SetCurrentValue( 0 );
-        this.LastOperation = 'PLUS';
+        var newValue = state.totalValue + state.currentValue;
+        return newValue;
+      } 
+    ),
+    'side'
+  );
 
+  // Subtract Button Registry
+  window.Calculator.PlaceButton(
+
+    new CalcButton( 'MINUS', '-', true,
+      function( state ) {
+
+        var newValue = state.totalValue - state.currentValue;
+        return newValue;
+      }
+    ),
+    'side'
+  );
+
+  window.Calculator.PlaceButton( 
+    new CalcButton( 'TIMES', '*', true, 
+      function( state ) {
+
+        var newValue = state.totalValue * state.currentValue;
+        return newValue;
+      }
+    ),
+    'side'
+  );
+
+  window.Calculator.PlaceButton( 
+    new CalcButton( 'DIVIDE', '/', true, 
+      function( state ) {
+
+        if ( parseFloat( state.currentValue.toPrecision(8) ) == 0 ) { return state.currentValue; }
+        var newValue = state.totalValue / state.currentValue;
+        return ( parseFloat( newValue.toPrecision(8) ) );
+      }
+    ),
+    'side'
+  );
+
+  window.Calculator.PlaceButton( 
+
+    new CalcButton( 'EQUALS', '=', true,
+      function( state ) { 
+
+        // DOES NOTHING. 
       }
     ),
     'side'
